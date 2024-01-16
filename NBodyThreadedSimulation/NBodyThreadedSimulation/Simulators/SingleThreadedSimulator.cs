@@ -4,7 +4,50 @@ namespace NBodyThreadedSimulation.Simulators;
 
 class SingleThreadedSimulator : ISimulator
 {
-    public Task<Scene> Simulate(Scene initialScene, string? simulationFilename, CancellationToken ct)
+    public Task<int> Simulate(Scene scene, string? simulationFilename, CancellationToken ct)
     {
+        int frameCount = 0;
+
+        while (!ct.IsCancellationRequested)
+        {
+            SimulateFrame(scene);
+            frameCount++;
+        }
+
+        return Task.FromResult(frameCount);
+    }
+
+    static void SimulateFrame(Scene currentScene)
+    {
+        foreach (var body in currentScene.Bodies)
+        {
+            foreach (var otherBody in currentScene.Bodies)
+            {
+                if (ReferenceEquals(body, otherBody))
+                    continue;
+
+                DoBodyInteraction(body, otherBody, currentScene.GravitationalConstant);
+            }
+        }
+
+        foreach (var body in currentScene.Bodies)
+            body.Position += body.Velocity * currentScene.DeltaTime;
+    }
+
+    static void DoBodyInteraction(Body body, Body otherBody, double G)
+    {
+        // Compute force magnitude
+        var delta = otherBody.Position - body.Position;
+        double sqrDistance = delta.SqrLength();
+
+        // Newton's law of universal gravitation: F = G * ((m1 * m2) / r^2)
+        var forceMagnitude = G * ((body.Mass * otherBody.Mass) / sqrDistance);
+
+        // Compute acceleration
+        var force = delta.Normalized() * forceMagnitude;
+        var acceleration = force / body.Mass;
+
+        // Update velocity
+        body.Velocity += acceleration;
     }
 }
