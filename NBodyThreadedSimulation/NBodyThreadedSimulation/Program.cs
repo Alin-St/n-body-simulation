@@ -8,6 +8,8 @@ class Program
 {
     public static async Task Main()
     {
+        Directory.SetCurrentDirectory("../../../_Run");
+
         await SimulateSampleAsync();
     }
 
@@ -43,7 +45,7 @@ class Program
         var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
 
         var startTime = DateTime.Now;
-        var resultScene = await simulator.Simulate(scene, null, cts.Token);
+        var resultScene = await simulator.Simulate(scene, "sample_sim.txt", cts.Token);
         var runTime = DateTime.Now - startTime;
 
         Console.WriteLine($"Simulation ran for {resultScene} frames in {runTime.TotalSeconds:f4} seconds");

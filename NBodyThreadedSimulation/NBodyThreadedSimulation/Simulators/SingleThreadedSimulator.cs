@@ -8,9 +8,14 @@ class SingleThreadedSimulator : ISimulator
     {
         int frameCount = 0;
 
+        using var writer = simulationFilename is null ? null : new StreamWriter(simulationFilename);
+        writer?.WriteLine($"{scene.Bodies.Count} {scene.DeltaTime}\r\n");
+        WriteFrame(scene, writer);
+
         while (!ct.IsCancellationRequested)
         {
             SimulateFrame(scene);
+            WriteFrame(scene, writer);
             frameCount++;
         }
 
@@ -49,5 +54,16 @@ class SingleThreadedSimulator : ISimulator
 
         // Update velocity
         body.Velocity += acceleration;
+    }
+
+    static void WriteFrame(Scene scene, StreamWriter? writer)
+    {
+        if (writer is null)
+            return;
+
+        foreach (var body in scene.Bodies)
+            writer.WriteLine($"{body.Position.X} {body.Position.Y} {body.Position.Z}");
+
+        writer.WriteLine();
     }
 }
