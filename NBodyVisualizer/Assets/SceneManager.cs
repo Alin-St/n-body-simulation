@@ -14,7 +14,7 @@ public class SceneManager : MonoBehaviour
 
     void Start()
     {
-        ReadFile(Debug.isDebugBuild ? "Build/input.txt" : "input.txt");
+        ReadFile((Debug.isDebugBuild ? "Build/" : "") + "simulation.txt");
         Debug.Log($"Body count: {bodyCount}, delta time: {deltaTime}, frame count: {positionFrames.Count}");
         GenerateBodies();
         startTime = Time.time;
