@@ -45,7 +45,7 @@ class Program
         var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
 
         var startTime = DateTime.Now;
-        var resultScene = await simulator.Simulate(scene, "simulation.txt", cts.Token);
+        var resultScene = await simulator.Simulate(scene, cts.Token, 500, "simulation.txt");
         var runTime = DateTime.Now - startTime;
 
         Console.WriteLine($"Simulation ran for {resultScene} frames in {runTime.TotalSeconds:f4} seconds");

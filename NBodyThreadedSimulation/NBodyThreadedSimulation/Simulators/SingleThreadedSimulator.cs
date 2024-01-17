@@ -4,7 +4,7 @@ namespace NBodyThreadedSimulation.Simulators;
 
 class SingleThreadedSimulator : ISimulator
 {
-    public Task<int> Simulate(Scene scene, string? simulationFilename, CancellationToken ct)
+    public Task<int> Simulate(Scene scene, CancellationToken ct, int maxFrames, string? simulationFilename)
     {
         int frameCount = 0;
 
@@ -12,7 +12,7 @@ class SingleThreadedSimulator : ISimulator
         writer?.WriteLine($"{scene.Bodies.Count} {scene.DeltaTime}\r\n");
         WriteFrame(scene, writer);
 
-        while (!ct.IsCancellationRequested)
+        while (frameCount < maxFrames && !ct.IsCancellationRequested)
         {
             SimulateFrame(scene);
             WriteFrame(scene, writer);

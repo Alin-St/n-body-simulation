@@ -4,7 +4,7 @@ namespace NBodyThreadedSimulation.Simulators;
 
 class MultiThreadedSimulator : ISimulator
 {
-    public async Task<int> Simulate(Scene initialScene, string? simulationFilename, CancellationToken ct)
+    public Task<int> Simulate(Scene scene, CancellationToken ct, int maxFrames = int.MaxValue, string? simulationFilename = null)
     {
         throw new NotImplementedException();
     }
