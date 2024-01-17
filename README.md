@@ -3,8 +3,15 @@ The goal is to simulate the [n-body problem](https://en.wikipedia.org/wiki/N-bod
 
 This repository will contain 3 projects:
 * **NBodyThreadedSimulation**: Simulates the n-body problem using regular threads.
+  - Language: C#
+  - IDE: Visual Studio 2022
 * **NBodyDistributedSimulation**: Simulates the n-body problem using distributed programming techniques.
+  - Language: C
+  - IDE: CLion
+  - Uses OpenMPI library
 * **NBodyVisualizer**: A 3D visualization tool that helps in validating the results of the simulation.
+  - Made with Unity
+  - Language: C#
 
 The first two projects will generate the initial configuration of bodies randomly, then simulate gravity for a limited number of frames, then output a file that represents the result of the simulation. The file primarily contains the position of each body for each frame. This file can be opened with the visualizer to check the result of the simulation.
 
