@@ -1,7 +1,7 @@
 # N-Body Simulation
 The goal is to simulate the [n-body problem](https://en.wikipedia.org/wiki/N-body_simulation) using parallel programming techniques.
 
-This repository will contain 3 projects:
+This repository contains 3 projects:
 * **NBodyThreadedSimulation**: Simulates the n-body problem using regular threads.
   - Language: C#
   - IDE: Visual Studio 2022
@@ -27,7 +27,7 @@ The file generated in the Simulation projects is used by the Visualizer to rende
 * Starting form the third line, each frame will be represented using `body count + 1` lines. Each line `i`, except the last one which is empty, contains 3 floating-point numbers separated by a space, representing the `X`, `Y` and `Z` coordinates of body `i`.
 * Note: The number of frames is not specified in the beginning, you need to read the whole file and count them manually.
 
-Example with 4 frames:
+Example with 4 frames and 2 bodies:
 ```
 2 0.0200
 
