@@ -6,7 +6,7 @@ This repository contains 3 projects:
   - Language: C#
   - IDE: Visual Studio 2022
 * **NBodyDistributedSimulation**: Simulates the n-body problem using distributed programming techniques.
-  - Language: C
+  - Language: C++
   - IDE: CLion
   - Uses OpenMPI library
 * **NBodyVisualizer**: A 3D visualization tool that helps in validating the results of the simulation.
