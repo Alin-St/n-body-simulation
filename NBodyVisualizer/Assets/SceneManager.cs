@@ -16,6 +16,7 @@ public class SceneManager : MonoBehaviour
     {
         ReadFile((Debug.isDebugBuild ? "Build/" : "") + "simulation.txt");
         Debug.Log($"Body count: {bodyCount}, delta time: {deltaTime}, frame count: {positionFrames.Count}");
+
         GenerateBodies();
         startTime = Time.time;
     }
@@ -29,21 +30,24 @@ public class SceneManager : MonoBehaviour
         bodyCount = int.Parse(line1[0]);
         deltaTime = float.Parse(line1[1]);
 
+        // Read empty line
+        streamReader.ReadLine();
+
         // Read position frames
         positionFrames = new List<List<Vector3>>();
         while (!streamReader.EndOfStream)
         {
-            var line = streamReader.ReadLine();
-            if (string.IsNullOrWhiteSpace(line))
-                continue;
-
+            // Read positions for each body
             var positionFrame = new List<Vector3>();
             for (int i = 0; i < bodyCount; i++)
             {
-                var pos = line.Split();
+                var pos = streamReader.ReadLine().Split();
                 positionFrame.Add(new Vector3(float.Parse(pos[0]), float.Parse(pos[1]), float.Parse(pos[2])));
             }
             positionFrames.Add(positionFrame);
+
+            // Read empty line
+            streamReader.ReadLine();
         }
     }
 
@@ -52,7 +56,10 @@ public class SceneManager : MonoBehaviour
         bodies = new();
         for (int i = 0; i < bodyCount; i++)
         {
+            // Create a sphere with random color for each body
             var body = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            body.GetComponent<SphereCollider>().enabled = false;
+            body.GetComponent<Renderer>().material.color = UnityEngine.Random.ColorHSV();
             bodies.Add(body);
         }
     }
@@ -65,7 +72,7 @@ public class SceneManager : MonoBehaviour
     void UpdatePositions()
     {
         int frameInd = (int)((Time.time - startTime) / deltaTime);
-        frameInd = Math.Clamp(frameInd, 0, positionFrames.Count);
+        frameInd = Math.Clamp(frameInd, 0, positionFrames.Count - 1);
         var positions = positionFrames[frameInd];
 
         for (int i = 0; i < bodyCount; i++)
@@ -73,6 +80,6 @@ public class SceneManager : MonoBehaviour
             bodies[i].transform.position = positions[i];
         }
 
-        Debug.Log($"Frame: {frameInd}/{positionFrames.Count}");
+        Debug.Log($"Frame: {frameInd + 1}/{positionFrames.Count}");
     }
 }
