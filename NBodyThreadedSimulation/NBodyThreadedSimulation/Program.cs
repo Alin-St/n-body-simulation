@@ -1,6 +1,7 @@
 ﻿using NBodyThreadedSimulation.Domain;
 using NBodyThreadedSimulation.Simulators;
 using NBodyThreadedSimulation.Utils;
+using System.Diagnostics;
 
 namespace NBodyThreadedSimulation;
 
@@ -8,7 +9,8 @@ class Program
 {
     public static async Task Main()
     {
-        Directory.SetCurrentDirectory("../../../_Run");
+        if (Debugger.IsAttached)
+            Directory.SetCurrentDirectory("../../../_Run");
 
         await SimulateSampleAsync();
     }
@@ -22,14 +24,12 @@ class Program
             DeltaTime = 1d / 50,
             Bodies = new List<Body>
             {
-                new Body
-                {
+                new() {
                     Position = new Vector3D { X = 1.2, Y = 5.32, Z = 2.24 },
                     Velocity = new Vector3D { X = 0, Y = 0, Z = 0 },
                     Mass = 1000
                 },
-                new Body
-                {
+                new() {
                     Position = new Vector3D { X = 1.52, Y = 2.16, Z = -1.52 },
                     Velocity = new Vector3D { X = 0, Y = 0, Z = 0 },
                     Mass = 1000
