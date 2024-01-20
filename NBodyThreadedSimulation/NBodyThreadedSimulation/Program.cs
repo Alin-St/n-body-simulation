@@ -12,12 +12,6 @@ class Program
         if (Debugger.IsAttached)
             Directory.SetCurrentDirectory("../../../_Run");
 
-        // Set the minimum number of worker threads
-        ThreadPool.SetMinThreads(1, 1);
-
-        // Set the maximum number of worker threads
-        ThreadPool.SetMaxThreads(1, 1);
-
         await SimulateSampleAsync();
     }
 
@@ -47,7 +41,7 @@ class Program
         Console.WriteLine($"Initial scene:\r\n" + $"{scene}".Indent());
         Console.WriteLine("Simulating...\r\n");
 
-        ISimulator simulator = new MultiThreadedSimulator();
+        ISimulator simulator = new SingleThreadedSimulator();
         var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
 
         var startTime = DateTime.Now;
